@@ -31,7 +31,7 @@ public class GithubController {
 
         return githubService.readGitHubRepos();
     }
-
+//TODO - jakies testowanie
     @GetMapping("/users/{name}")
     public RepoOwner getUserByUsername(@PathVariable("name") String name) throws UsernameNotFoundException {
         log.info(" getUserByUsername: [{}]", name);

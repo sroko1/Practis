@@ -22,9 +22,12 @@ public class GithubService implements CommandLineRunner {
     private final String githubUrl;
     private final String userNameGithubUrl;
 
+
+    //TODO w aplications properties wiecej url ów
     public GithubService(RestTemplate restTemplate,
                          @Value("${github.repository.url}") String githubUrl,
-                         @Value("${userNameGithubUrl.repository.url}") String userNameGithubUrl) {
+                         @Value("${userNameGithubUrl.repository.url}") String userNameGithubUrl)
+    {
         this.restTemplate = restTemplate;
         this.githubUrl = githubUrl;
         this.userNameGithubUrl = userNameGithubUrl;
@@ -50,7 +53,7 @@ public class GithubService implements CommandLineRunner {
         return responseFromServer.getBody();
     }
 
-
+//TODo
     public RepoOwner findReposByUsername(String name) {
         return restTemplate.getForObject(userNameGithubUrl,RepoOwner.class, name);
     }
