@@ -1,6 +1,5 @@
 package pl.example.juniorhomework.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +9,6 @@ import pl.example.juniorhomework.service.GithubService;
 import java.util.List;
 
 @RestController
-@Slf4j
 @RequestMapping("/api/github")
 public class GithubController {
 
@@ -21,14 +19,11 @@ public class GithubController {
         this.githubService = githubService;
     }
 
-
     @RequestMapping("/repos/{login}")
     List<UserBranch> getUserReposWithBranchesSha(@PathVariable("login") String owner) {
         return githubService.readUserReposWithBranchesSha(owner);
 
-
     }
-
 
 }
 

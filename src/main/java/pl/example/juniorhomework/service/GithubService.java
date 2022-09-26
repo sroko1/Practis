@@ -4,7 +4,12 @@ package pl.example.juniorhomework.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import pl.example.juniorhomework.dto.BranchAndCommits;
@@ -16,7 +21,7 @@ import pl.example.juniorhomework.exception.UsernameNotFoundException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @Slf4j
@@ -46,7 +51,7 @@ public class GithubService implements CommandLineRunner {
                     restTemplate.getForEntity(MessageFormat.format(githubUrl, login), GithubRepository[].class);
             return List.of(forEntity.getBody());
         } catch (HttpClientErrorException.NotFound e) {
-            throw new UsernameNotFoundException();
+            throw new UsernameNotFoundException(login);
         }
 
     }
@@ -61,7 +66,8 @@ public class GithubService implements CommandLineRunner {
         return response;
     }
 
-
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public List<UserBranch> readUserReposWithBranchesSha(String login) {
         var repos = readGitHubRepos(login);
         var response = new ArrayList<UserBranch>();
